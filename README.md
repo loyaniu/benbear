@@ -15,7 +15,7 @@ pnpm start
 
 ## Docs
 
-See [docs.md](docs.md)
+See [docs](docs)
 
 ## Contributors
 
