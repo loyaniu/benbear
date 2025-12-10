@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/categories"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isEditMode ? 'Edit Category' : 'New Category' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onSave()" [disabled]="isLoading">
+        @if (isLoading) {
+        <ion-spinner name="crescent"></ion-spinner>
+        } @else { Save }
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item>
+      <ion-input
+        label="Category Name"
+        labelPlacement="stacked"
+        placeholder="e.g. Groceries"
+        [(ngModel)]="name"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-select
+        label="Type"
+        labelPlacement="stacked"
+        [(ngModel)]="type"
+        [disabled]="isEditMode"
+        interface="popover"
+      >
+        <ion-select-option value="expense">Expense</ion-select-option>
+        <ion-select-option value="income">Income</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <app-icon-picker
+      [icons]="icons"
+      [(value)]="icon"
+      [previewColor]="color"
+      label="Icon"
+    />
+
+    <ion-item>
+      <ion-label>Color</ion-label>
+      <app-color-picker slot="end" [colors]="colors" [(value)]="color" />
+    </ion-item>
+  </ion-list>
+
+  @if (errorMessage) {
+  <ion-text color="danger">
+    <p class="error-text ion-padding">{{ errorMessage }}</p>
+  </ion-text>
+  }
+
+  <!-- Preview -->
+  <div class="preview ion-padding">
+    <p class="preview-label">Preview</p>
+    <div class="preview-card">
+      <div class="category-icon" [style.background-color]="color">
+        <i class="ph ph-{{ icon }}"></i>
+      </div>
+      <span class="category-name">{{ name || 'Category Name' }}</span>
+    </div>
+  </div>
+</ion-content>

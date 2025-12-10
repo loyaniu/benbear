@@ -1,0 +1,189 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+@use "@phosphor-icons/web/regular";
+@use "@phosphor-icons/web/fill";
+
+// Tailwind v4: Load only utility classes, do not load Preflight (to avoid overriding Ionic styles)
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+// @import "@ionic/angular/css/padding.css";
+// @import "@ionic/angular/css/float-elements.css";
+// @import "@ionic/angular/css/text-alignment.css";
+// @import "@ionic/angular/css/text-transformation.css";
+// @import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+@import "@ionic/angular/css/palettes/dark.system.css";
+
+// ============================================
+// Global Component Overrides
+// ============================================
+
+// Cards - rounded corners, soft shadows
+ion-card {
+  --background: var(--app-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin: 0;
+}
+
+ion-card-content {
+  padding: var(--space-5);
+}
+
+// Tab Bar
+ion-tab-bar {
+  --background: var(--app-surface);
+  --border: none;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
+}
+
+ion-tab-button {
+  --color: var(--app-text-tertiary);
+  --color-selected: var(--app-primary);
+}
+
+// Header - clean, borderless
+ion-toolbar {
+  --background: var(--app-surface);
+  --border-width: 0;
+  --padding-start: var(--space-4);
+  --padding-end: var(--space-4);
+}
+
+ion-title {
+  font-weight: 600;
+  font-size: var(--text-lg);
+}
+
+ion-back-button {
+  --color: var(--app-text-primary);
+}
+
+// Lists - clean background
+ion-list {
+  background: transparent !important;
+  --ion-item-background: transparent;
+  padding: 0;
+}
+
+ion-list-header {
+  padding-left: 0;
+  margin-bottom: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--app-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+ion-item {
+  --background: var(--app-surface);
+  --border-color: transparent;
+  --padding-start: var(--space-4);
+  --padding-end: var(--space-4);
+  --inner-padding-end: var(--space-4);
+  --min-height: 56px;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-2);
+}
+
+ion-item-sliding {
+  background: transparent;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-2);
+  overflow: hidden;
+
+  ion-item {
+    margin-bottom: 0;
+  }
+}
+
+// Buttons - modern rounded
+ion-button {
+  --border-radius: var(--radius-md);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+// FAB - primary with shadow
+ion-fab-button {
+  --background: var(--app-primary);
+  --box-shadow: var(--shadow-primary);
+}
+
+// Segments - rounded
+ion-segment {
+  --background: var(--app-bg);
+  border-radius: var(--radius-md);
+  padding: var(--space-1);
+}
+
+ion-segment-button {
+  --border-radius: var(--radius-sm);
+  --indicator-box-shadow: var(--shadow-sm);
+  --indicator-color: var(--app-surface);
+  font-weight: 500;
+  text-transform: none;
+  min-height: 36px;
+}
+
+// Inputs
+ion-input,
+ion-textarea {
+  --background: var(--app-bg);
+  --padding-start: var(--space-4);
+  --padding-end: var(--space-4);
+  --border-radius: var(--radius-md);
+}
+
+// Selects
+ion-select {
+  --placeholder-color: var(--app-text-tertiary);
+}
+
+// Modals
+ion-modal {
+  --border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+// Toggles
+ion-toggle {
+  --track-background: var(--app-border);
+  --track-background-checked: var(--app-primary);
+}
+
+// Spinners
+ion-spinner {
+  --color: var(--app-primary);
+}

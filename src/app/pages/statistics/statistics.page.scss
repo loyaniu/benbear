@@ -1,0 +1,112 @@
+// ============================================
+// Statistics Page - Modern Minimalist Design
+// ============================================
+
+:host {
+  ion-content {
+    --padding-start: var(--space-4);
+    --padding-end: var(--space-4);
+    --padding-top: var(--space-4);
+  }
+}
+
+// Month Navigation
+.month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) 0;
+  margin-bottom: var(--space-4);
+
+  ion-button {
+    --padding-start: var(--space-2);
+    --padding-end: var(--space-2);
+  }
+}
+
+.month-display {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--app-text-primary);
+}
+
+// Summary Cards
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.summary-card {
+  background: var(--app-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin: 0;
+
+  ion-card-content {
+    padding: var(--space-4);
+    text-align: center;
+  }
+
+  .card-label {
+    font-size: var(--text-xs);
+    color: var(--app-text-secondary);
+    margin-bottom: var(--space-1);
+  }
+
+  .card-value {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--app-text-primary);
+
+    &.negative {
+      color: var(--app-danger);
+    }
+  }
+
+  &.income .card-value {
+    color: var(--app-success);
+  }
+
+  &.expense .card-value {
+    color: var(--app-danger);
+  }
+}
+
+// Chart Cards
+ion-card {
+  background: var(--app-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin: 0 0 var(--space-4) 0;
+}
+
+ion-card-header {
+  padding: var(--space-4) var(--space-5) 0;
+}
+
+ion-card-title {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--app-text-primary);
+}
+
+ion-card-content {
+  padding: var(--space-4) var(--space-5);
+}
+
+.empty-chart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  color: var(--app-text-tertiary);
+  font-size: var(--text-sm);
+}
+
+// Center ApexCharts
+apx-chart {
+  display: flex;
+  justify-content: center;
+}

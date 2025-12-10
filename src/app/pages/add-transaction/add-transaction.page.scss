@@ -1,0 +1,224 @@
+// ============================================
+// Add Transaction Page - Modern Minimalist Design
+// ============================================
+
+:host {
+  ion-content {
+    --padding-start: var(--space-4);
+    --padding-end: var(--space-4);
+    --padding-top: var(--space-4);
+  }
+}
+
+// Mode switch button
+.mode-switch {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-4);
+
+  ion-button {
+    font-size: var(--text-sm);
+  }
+}
+
+// ============================================
+// Voice Mode
+// ============================================
+.voice-mode {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.voice-input-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.mic-button {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: var(--app-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-primary);
+
+  ion-icon {
+    font-size: 48px;
+  }
+
+  &:hover:not(:disabled) {
+    transform: scale(1.05);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    background: var(--app-text-tertiary);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  &.recording {
+    background: var(--app-danger);
+    animation: pulse 1.5s infinite;
+    box-shadow: 0 4px 30px rgba(239, 68, 68, 0.5);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 30px rgba(239, 68, 68, 0.5);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 4px 40px rgba(239, 68, 68, 0.7);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 30px rgba(239, 68, 68, 0.5);
+  }
+}
+
+.voice-hint {
+  margin-top: var(--space-6);
+  font-size: var(--text-base);
+  text-align: center;
+  color: var(--app-text-secondary);
+}
+
+.voice-example {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  text-align: center;
+  color: var(--app-text-tertiary);
+}
+
+.text-input-section {
+  margin-top: var(--space-8);
+  width: 100%;
+  max-width: 400px;
+  padding: 0 var(--space-4);
+
+  .or-divider {
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--app-text-tertiary);
+    margin-bottom: var(--space-4);
+  }
+
+  .text-input-row {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+
+    .text-input-field {
+      flex: 1;
+      --background: var(--app-surface);
+      --padding-start: var(--space-4);
+      --padding-end: var(--space-4);
+      --border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+    }
+
+    ion-button {
+      --padding-start: var(--space-4);
+      --padding-end: var(--space-4);
+    }
+  }
+}
+
+.processing-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+
+  ion-spinner {
+    width: 48px;
+    height: 48px;
+  }
+
+  p {
+    margin: 0;
+    font-size: var(--text-base);
+    color: var(--app-text-secondary);
+  }
+}
+
+// ============================================
+// Manual Mode
+// ============================================
+.amount-input {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  padding: var(--space-8) var(--space-4);
+  background: var(--app-surface);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-4);
+  cursor: text;
+  position: relative;
+  box-shadow: var(--shadow-md);
+
+  .currency {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--app-text-primary);
+  }
+
+  .amount-display {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--app-text-primary);
+    min-width: 1ch;
+  }
+
+  .amount-field-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    top: 50%;
+    left: 50%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: transparent;
+    caret-color: transparent;
+    opacity: 0;
+    font-size: 16px;
+  }
+}
+
+ion-list {
+  background: transparent;
+
+  ion-item {
+    --background: var(--app-surface);
+    margin-bottom: var(--space-2);
+  }
+}
+
+ion-datetime {
+  margin: 0 auto;
+}
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}

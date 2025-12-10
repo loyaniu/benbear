@@ -1,0 +1,200 @@
+<ion-header>
+  <ion-toolbar>
+    @if (isEditMode) {
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/transactions"></ion-back-button>
+    </ion-buttons>
+    }
+    <ion-title
+      >{{ isEditMode ? 'Edit Transaction' : 'Add Transaction' }}</ion-title
+    >
+    <ion-buttons slot="end">
+      @if (inputMode === 'manual') {
+      <ion-button (click)="onSave()" [disabled]="isLoading">
+        @if (isLoading) {
+        <ion-spinner name="crescent"></ion-spinner>
+        } @else { Save }
+      </ion-button>
+      }
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!-- Only show segment in manual mode -->
+  @if (inputMode === 'manual') {
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="transactionType" (ionChange)="onTypeChange()">
+      <ion-segment-button value="expense">
+        <ion-label>Expense</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="income">
+        <ion-label>Income</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+  }
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Voice Mode -->
+  @if (inputMode === 'voice') {
+  <div class="voice-mode">
+    <!-- Mode switch button -->
+    <div class="mode-switch">
+      <ion-button fill="clear" size="small" (click)="switchToManual()">
+        <ion-icon slot="start" name="create-outline"></ion-icon>
+        Manual Input
+      </ion-button>
+    </div>
+
+    <!-- Voice input area -->
+    <div class="voice-input-area">
+      @if (isProcessingAudio || isProcessingText) {
+      <div class="processing-state">
+        <ion-spinner name="crescent" color="primary"></ion-spinner>
+        <ion-text color="medium">
+          <p>Understanding your input...</p>
+        </ion-text>
+      </div>
+      } @else {
+      <button
+        class="mic-button"
+        [class.recording]="audioRecorderService.isRecording()"
+        (click)="toggleRecording()"
+        [disabled]="!audioRecorderService.isSupported()"
+      >
+        <ion-icon name="mic-outline"></ion-icon>
+      </button>
+
+      <ion-text color="medium">
+        <p class="voice-hint">
+          @if (audioRecorderService.isRecording()) { Tap to stop recording }
+          @else if (!audioRecorderService.isSupported()) { Voice input not
+          supported } @else { Tap to start recording }
+        </p>
+      </ion-text>
+
+      <ion-text color="medium">
+        <p class="voice-example">
+          Try: "Spent 30 dollars on coffee" or "Get paid 1000 dollars"
+        </p>
+      </ion-text>
+
+      <!-- Text input alternative -->
+      <div class="text-input-section">
+        <ion-text color="medium">
+          <p class="or-divider">— or type —</p>
+        </ion-text>
+        <div class="text-input-row">
+          <ion-input
+            type="text"
+            placeholder="e.g. lunch 15 dollars"
+            [(ngModel)]="textInput"
+            (keyup.enter)="processTextInput()"
+            class="text-input-field"
+          ></ion-input>
+          <ion-button
+            fill="solid"
+            size="default"
+            (click)="processTextInput()"
+            [disabled]="!textInput.trim()"
+          >
+            Go
+          </ion-button>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+  }
+
+  <!-- Manual Mode -->
+  @if (inputMode === 'manual') {
+  <!-- Mode switch button (only for new transactions) -->
+  @if (!isEditMode) {
+  <div class="mode-switch">
+    <ion-button fill="clear" size="small" (click)="switchToVoice()">
+      <ion-icon slot="start" name="mic-outline"></ion-icon>
+      Voice Input
+    </ion-button>
+  </div>
+  }
+
+  <!-- Amount Input -->
+  <div class="amount-input" (click)="amountInput.focus()">
+    <span class="currency">$</span>
+    <span class="amount-display">{{ amount || '0.00' }}</span>
+    <input
+      #amountInput
+      type="number"
+      inputmode="decimal"
+      [(ngModel)]="amount"
+      class="amount-field-hidden"
+    />
+  </div>
+
+  <ion-list>
+    <!-- Account -->
+    <ion-item>
+      <ion-select
+        label="Account"
+        labelPlacement="stacked"
+        [(ngModel)]="selectedAccountId"
+        interface="popover"
+      >
+        @for (account of accounts; track account.id) {
+        <ion-select-option [value]="account.id">
+          {{ account.name }} ({{ account.currency }})
+        </ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
+
+    <!-- Category -->
+    <app-category-picker
+      [categories]="categories"
+      [(value)]="selectedCategoryId"
+      label="Category"
+    />
+
+    <!-- Date -->
+    <ion-item button (click)="isDateModalOpen = true">
+      <ion-label>
+        <p>Date</p>
+        <h2>{{ formattedDate }}</h2>
+      </ion-label>
+    </ion-item>
+
+    <!-- Note -->
+    <ion-item>
+      <ion-textarea
+        label="Note"
+        labelPlacement="stacked"
+        placeholder="Add a note..."
+        [(ngModel)]="note"
+        rows="4"
+      ></ion-textarea>
+    </ion-item>
+  </ion-list>
+  }
+
+  <!-- Date Picker Modal -->
+  <ion-modal [isOpen]="isDateModalOpen" (didDismiss)="isDateModalOpen = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Select Date</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="isDateModalOpen = false">Done</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-datetime
+          presentation="date"
+          [value]="dateForPicker"
+          (ionChange)="onDateChange($event)"
+        ></ion-datetime>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

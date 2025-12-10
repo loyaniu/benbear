@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ pageTitle() }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="content-wrapper">
+    <!-- View Mode Toggle -->
+    <ion-segment
+      [value]="viewMode()"
+      (ionChange)="viewMode.set($any($event.detail.value))"
+      class="view-toggle"
+    >
+      <ion-segment-button value="daily">
+        <ion-label>Daily</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="monthly">
+        <ion-label>Monthly</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <!-- Spending Section -->
+    <div class="section">
+      <div class="section-header" (click)="toggleSpending()">
+        <span class="section-title"
+          >Spending
+          <strong>{{ formatCurrency(displayExpense()) }}</strong></span
+        >
+        <ion-icon
+          [name]="spendingExpanded ? 'chevron-up' : 'chevron-down'"
+          color="primary"
+        ></ion-icon>
+      </div>
+
+      @if (spendingExpanded) { @if (categorySpending().length === 0) {
+      <div class="empty-state">
+        <p>No spending {{ viewMode() === 'daily' ? 'today' : 'this month' }}</p>
+      </div>
+      } @else {
+      <div class="category-grid">
+        @for (item of categorySpending(); track item.category.id) {
+        <div
+          class="category-card"
+          [style.background-color]="getPastelColor(item.category.color, isDarkMode())"
+        >
+          <div class="category-name">{{ item.category.name }}</div>
+          <div
+            class="category-icon"
+            [style.background-color]="getLighterColor(item.category.color, isDarkMode())"
+          >
+            <i
+              [class]="'ph-fill ph-' + item.category.icon"
+              [style.color]="item.category.color"
+            ></i>
+          </div>
+          <div class="category-amount">{{ formatCurrency(item.amount) }}</div>
+        </div>
+        }
+      </div>
+      } }
+    </div>
+
+    <!-- Income Section -->
+    <div class="section">
+      <div class="section-header" (click)="toggleIncome()">
+        <span class="section-title"
+          >Income <strong>{{ formatCurrency(displayIncome()) }}</strong></span
+        >
+        <ion-icon
+          [name]="incomeExpanded ? 'chevron-up' : 'chevron-down'"
+          color="primary"
+        ></ion-icon>
+      </div>
+
+      @if (incomeExpanded) { @if (categoryIncome().length === 0) {
+      <div class="empty-state">
+        <p>No income {{ viewMode() === 'daily' ? 'today' : 'this month' }}</p>
+      </div>
+      } @else {
+      <div class="category-grid">
+        @for (item of categoryIncome(); track item.category.id) {
+        <div
+          class="category-card"
+          [style.background-color]="getPastelColor(item.category.color, isDarkMode())"
+        >
+          <div class="category-name">{{ item.category.name }}</div>
+          <div
+            class="category-icon"
+            [style.background-color]="getLighterColor(item.category.color, isDarkMode())"
+          >
+            <i
+              [class]="'ph-fill ph-' + item.category.icon"
+              [style.color]="item.category.color"
+            ></i>
+          </div>
+          <div class="category-amount">{{ formatCurrency(item.amount) }}</div>
+        </div>
+        }
+      </div>
+      } }
+    </div>
+  </div>
+</ion-content>

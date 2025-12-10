@@ -1,0 +1,7 @@
+{
+  "name": "BenBear",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Transactions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (transactions$ | async; as transactions) { @if (transactions.length === 0)
+  {
+  <div class="empty-state">
+    <p>No transactions yet</p>
+    <ion-button (click)="onAddTransaction()">Add Transaction</ion-button>
+  </div>
+  } @else {
+  <ion-list>
+    @for (tx of transactions; track tx.id) {
+    <ion-item-sliding>
+      <ion-item button (click)="onEditTransaction(tx)">
+        <app-category-icon
+          slot="start"
+          [icon]="tx.categoryIcon"
+          [color]="tx.categoryColor"
+          size="md"
+          variant="solid"
+        ></app-category-icon>
+        <ion-label>
+          <h2>{{ tx.categoryName }}</h2>
+          <p>{{ tx.accountName }} · {{ formatDate(tx.date) }}</p>
+          @if (tx.note) {
+          <p class="note">{{ tx.note }}</p>
+          }
+        </ion-label>
+        <ion-note slot="end" [color]="getAmountColor(tx)">
+          {{ formatAmount(tx) }}
+        </ion-note>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="onDeleteTransaction(tx)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+    }
+  </ion-list>
+  } }
+</ion-content>

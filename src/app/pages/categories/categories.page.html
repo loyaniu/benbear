@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/more"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Categories</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [value]="selectedType" (ionChange)="onSegmentChange($event)">
+      <ion-segment-button value="expense">
+        <ion-label>Expense</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="income">
+        <ion-label>Income</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (categories$ | async; as categories) { @if (categories.length === 0) {
+  <div class="empty-state">
+    <p>No {{ selectedType }} categories yet</p>
+    <ion-button (click)="onAddCategory()">Add Category</ion-button>
+  </div>
+  } @else {
+  <ion-list>
+    @for (category of categories; track category.id) {
+    <ion-item-sliding>
+      <ion-item button (click)="onEditCategory(category)">
+        <app-category-icon
+          slot="start"
+          [icon]="category.icon"
+          [color]="category.color"
+          size="md"
+          variant="solid"
+        ></app-category-icon>
+        <ion-label>{{ category.name }}</ion-label>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="onDeleteCategory(category)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+    }
+  </ion-list>
+  } }
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="onAddCategory()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

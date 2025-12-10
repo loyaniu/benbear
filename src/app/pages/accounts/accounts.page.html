@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/more"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Accounts</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (accounts$ | async; as accounts) { @if (accounts.length === 0) {
+  <div class="empty-state">
+    <p>No accounts yet</p>
+    <ion-button (click)="onAddAccount()">Add Your First Account</ion-button>
+  </div>
+  } @else {
+  <ion-list>
+    @for (account of accounts; track account.id) {
+    <ion-item-sliding>
+      <ion-item button (click)="onEditAccount(account)">
+        <app-category-icon
+          slot="start"
+          [icon]="account.icon"
+          [color]="account.color"
+          size="md"
+          variant="solid"
+        ></app-category-icon>
+        <ion-label>
+          <h2>{{ account.name }}</h2>
+          <p>{{ getAccountTypeLabel(account.type) }}</p>
+        </ion-label>
+        <ion-note slot="end">
+          {{ account.currency }} {{ account.balance | number: '1.2-2' }}
+        </ion-note>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="onDeleteAccount(account)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+    }
+  </ion-list>
+  } }
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="onAddAccount()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

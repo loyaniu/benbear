@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Statistics</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Month Navigation -->
+  <div class="month-nav">
+    <ion-button fill="clear" (click)="goToPreviousMonth()">
+      <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
+    </ion-button>
+    <span class="month-display">{{ monthDisplay() }}</span>
+    <ion-button
+      fill="clear"
+      [disabled]="!canGoNext()"
+      (click)="goToNextMonth()"
+    >
+      <ion-icon slot="icon-only" name="chevron-forward"></ion-icon>
+    </ion-button>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-cards">
+    <ion-card class="summary-card income">
+      <ion-card-content>
+        <div class="card-label">Income</div>
+        <div class="card-value">{{ formatCurrency(stats().totalIncome) }}</div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="summary-card expense">
+      <ion-card-content>
+        <div class="card-label">Expense</div>
+        <div class="card-value">{{ formatCurrency(stats().totalExpense) }}</div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="summary-card balance">
+      <ion-card-content>
+        <div class="card-label">Balance</div>
+        <div class="card-value" [class.negative]="balance() < 0">
+          {{ formatCurrency(balance()) }}
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Expense by Category Chart -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Expense by Category</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      @if (pieChartOptions()) {
+      <apx-chart
+        [series]="pieChartOptions()!.series"
+        [chart]="pieChartOptions()!.chart"
+        [labels]="pieChartOptions()!.labels"
+        [colors]="pieChartOptions()!.colors"
+        [responsive]="pieChartOptions()!.responsive"
+        [dataLabels]="pieChartOptions()!.dataLabels"
+        [legend]="pieChartOptions()!.legend"
+      ></apx-chart>
+      } @else {
+      <div class="empty-chart">
+        <p>No expense data for this month</p>
+      </div>
+      }
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Daily Expense Trend -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Daily Expense</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      @if (barChartOptions()) {
+      <apx-chart
+        [series]="barChartOptions()!.series"
+        [chart]="barChartOptions()!.chart"
+        [xaxis]="barChartOptions()!.xaxis"
+        [plotOptions]="barChartOptions()!.plotOptions"
+        [fill]="barChartOptions()!.fill"
+        [dataLabels]="barChartOptions()!.dataLabels"
+      ></apx-chart>
+      } @else {
+      <div class="empty-chart">
+        <p>No expense data for this month</p>
+      </div>
+      }
+    </ion-card-content>
+  </ion-card>
+</ion-content>
